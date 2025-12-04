@@ -8,12 +8,26 @@ import java.time.LocalDate;
 @Data
 public class ProjectDTO {
 
-    private final String id;
-    private final String name;
-    private final String description;
-    private final LocalDate initialDate;
-    private final LocalDate finalDate;
-    private final String status;
+    private String id;
+    private String name;
+    private String description;
+    private LocalDate initialDate;
+    private LocalDate finalDate;
+    private String status;
+
+
+    public ProjectDTO() {
+    }
+
+    public ProjectDTO(String id, String name, String description, LocalDate initialDate, LocalDate finalDate, String status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.status = status;
+    }
+
 
     public static ProjectDTO create(Project project){
         return new ProjectDTO(

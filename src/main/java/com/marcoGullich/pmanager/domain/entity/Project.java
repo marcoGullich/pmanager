@@ -3,7 +3,6 @@ package com.marcoGullich.pmanager.domain.entity;
 import com.marcoGullich.pmanager.domain.model.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +13,6 @@ import static jakarta.persistence.GenerationType.UUID;
 @Entity
 @Table(name = "project")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Project {
@@ -40,4 +38,52 @@ public class Project {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING) // String pega a descrição. Já o ORDINAL pega o número de cada tipo(0(PENDING), 1, 2)
     private ProjectStatus status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getInitialDate() {
+        return initialDate;
+    }
+
+    public void setInitialDate(LocalDate initialDate) {
+        this.initialDate = initialDate;
+    }
+
+    public LocalDate getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(LocalDate finalDate) {
+        this.finalDate = finalDate;
+    }
+
+    public ProjectStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProjectStatus status) {
+        this.status = status;
+    }
 }

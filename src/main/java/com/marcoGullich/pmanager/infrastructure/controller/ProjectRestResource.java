@@ -5,6 +5,7 @@ import com.marcoGullich.pmanager.domain.entity.Project;
 import com.marcoGullich.pmanager.infrastructure.dto.ProjectDTO;
 import com.marcoGullich.pmanager.infrastructure.dto.SaveProjectDataDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,8 @@ import static com.marcoGullich.pmanager.infrastructure.controller.RestConstants.
 @RequiredArgsConstructor
 public class ProjectRestResource {
 
-    private final ProjectService service;
+    @Autowired
+    private ProjectService service;
 
     @PostMapping
     public ResponseEntity<ProjectDTO> createProject(@RequestBody SaveProjectDataDTO dto){

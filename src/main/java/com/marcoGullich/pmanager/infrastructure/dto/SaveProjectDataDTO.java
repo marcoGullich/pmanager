@@ -7,9 +7,29 @@ import java.time.LocalDate;
 @Data
 public class SaveProjectDataDTO {
 
-    private final String name;
-    private final String description;
-    private final LocalDate initialDate;
-    private final LocalDate finalDate;
-    private final String status;
+    private String name;
+    private String description;
+    private LocalDate initialDate;
+    private LocalDate finalDate;
+    private String status;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getInitialDate() {
+        return initialDate;
+    }
+
+    public LocalDate getFinalDate() {
+        return finalDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }

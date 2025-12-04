@@ -5,26 +5,24 @@ import com.marcoGullich.pmanager.domain.model.ProjectStatus;
 import com.marcoGullich.pmanager.domain.repository.ProjectRepository;
 import com.marcoGullich.pmanager.infrastructure.dto.SaveProjectDataDTO;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor //Construtor que receberá tds os atributos com "final"
+//@RequiredArgsConstructor //Construtor que receberá tds os atributos com "final"
 public class ProjectService {
 
-    private final ProjectRepository repository;
+    @Autowired
+    private ProjectRepository repository;
 
     @Transactional
     public Project createProject(SaveProjectDataDTO dto) {
-
-        Project project = Project
-                .builder()
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .initialDate(dto.getInitialDate())
-                .finalDate(dto.getFinalDate())
-                .status(ProjectStatus.PENDING)
-                .build();
+        Project project = new Project();
+        project.setDescription(dto.getDescription());
+        project.setName(dto.getName());
+        project.setInitialDate(dto.getInitialDate());
+        project.setFinalDate(dto.getFinalDate());
+        project.setStatus(ProjectStatus.PENDING);
 
         repository.save(project);
 
