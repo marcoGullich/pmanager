@@ -27,7 +27,7 @@ public class ProjectService {
     @Transactional
     public Project createProject(SaveProjectDataDTO dto) {
 
-        if(existsProjectWithName(dto.getName(), null)){
+        if (existsProjectWithName(dto.getName(), null)) {
             throw new DuplicateProjectException(dto.getName());
         }
 
@@ -61,7 +61,7 @@ public class ProjectService {
     @Transactional
     public Project updateProject(String id, SaveProjectDataDTO dto) {
 
-        if(existsProjectWithName(dto.getName(), id)){
+        if (existsProjectWithName(dto.getName(), id)) {
             throw new DuplicateProjectException(dto.getName());
         }
         Project project = loadProject(id);
