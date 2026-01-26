@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class SaveProjectDataDTO {
@@ -26,10 +27,20 @@ public class SaveProjectDataDTO {
 
     private String status;
 
+    private Set<String> memberIds;
+
     @AssertTrue(message = "Dates are not consistent")
     @SuppressWarnings("unused")
     private boolean isInitialDateBeforeFinalDate() {
         return initialDate.isBefore(finalDate);
+    }
+
+    public Set<String> getMemberIds() {
+        return memberIds;
+    }
+
+    public void setMemberIds(Set<String> memberIds) {
+        this.memberIds = memberIds;
     }
 
     public String getName() {

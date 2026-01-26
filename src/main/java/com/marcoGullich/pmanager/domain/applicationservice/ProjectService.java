@@ -1,10 +1,12 @@
 package com.marcoGullich.pmanager.domain.applicationservice;
 
+import com.marcoGullich.pmanager.domain.entity.Member;
 import com.marcoGullich.pmanager.domain.entity.Project;
 import com.marcoGullich.pmanager.domain.exception.DuplicateProjectException;
 import com.marcoGullich.pmanager.domain.exception.InvalidProjectStatusException;
 import com.marcoGullich.pmanager.domain.exception.ProjectNotFoundException;
 import com.marcoGullich.pmanager.domain.model.ProjectStatus;
+import com.marcoGullich.pmanager.domain.repository.MemberRepository;
 import com.marcoGullich.pmanager.domain.repository.ProjectRepository;
 import com.marcoGullich.pmanager.infrastructure.dto.SaveProjectDataDTO;
 import jakarta.transaction.Transactional;
@@ -13,7 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 //@RequiredArgsConstructor //Construtor que receberá tds os atributos com "final"
@@ -23,6 +30,10 @@ public class ProjectService {
 
     @Autowired
     private ProjectRepository repository;
+
+    @Autowired
+    private MemberService memberService;
+
 
     @Transactional
     public Project createProject(SaveProjectDataDTO dto) {
@@ -39,6 +50,8 @@ public class ProjectService {
         project.setStatus(ProjectStatus.PENDING);
 
         repository.save(project);
+
+        addMembersToProject(dto.getMemberIds(), project);
 
         LOGGER.info("Project created: {}", project);
 
@@ -72,6 +85,8 @@ public class ProjectService {
         project.setFinalDate(dto.getFinalDate());
         project.setStatus(convertToProjectStatus(dto.getStatus()));
 
+        addMembersToProject(dto.getMemberIds(), project);
+
         return project;
     }
 
@@ -89,6 +104,16 @@ public class ProjectService {
                 .findByName(name)
                 .filter(p -> !Objects.equals(p.getId(), idToExclude)) //Filtro para tirar da lista o que for diferente ao parâmetro idToExclude
                 .isPresent();
+    }
+
+    private void addMembersToProject(Set<String> memberIds, Project project) {
+
+        List<Member> members = Optional.ofNullable(memberIds).orElse(Set.of())
+                .stream()
+                .map(id -> memberService.loadMemberById(id))
+                .collect(toList());
+
+        project.setMembers(members);
     }
 
 }

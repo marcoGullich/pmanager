@@ -2,6 +2,8 @@ package com.marcoGullich.pmanager.domain.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "member")
 public class Member {
@@ -22,6 +24,17 @@ public class Member {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;
+
+    @ManyToMany(mappedBy = "members")
+    private List<Project> projects;
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 
     public String getId() {
         return id;

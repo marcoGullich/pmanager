@@ -1,9 +1,15 @@
 package com.marcoGullich.pmanager.infrastructure.dto;
 
+import com.marcoGullich.pmanager.domain.entity.Member;
 import com.marcoGullich.pmanager.domain.entity.Project;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 @Data
 public class ProjectDTO {
@@ -14,18 +20,17 @@ public class ProjectDTO {
     private LocalDate initialDate;
     private LocalDate finalDate;
     private String status;
+    private final Set<String> memberIds;
 
 
-    public ProjectDTO() {
-    }
-
-    public ProjectDTO(String id, String name, String description, LocalDate initialDate, LocalDate finalDate, String status) {
+    public ProjectDTO(String id, String name, String description, LocalDate initialDate, LocalDate finalDate, String status, Set<String> memberIds) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.initialDate = initialDate;
         this.finalDate = finalDate;
         this.status = status;
+        this.memberIds = memberIds;
     }
 
 
@@ -36,8 +41,18 @@ public class ProjectDTO {
                 project.getDescription(),
                 project.getInitialDate(),
                 project.getFinalDate(),
-                project.getStatus().toString()
+                project.getStatus().toString(),
+                Optional
+                        .ofNullable(project.getMembers())
+                        .orElse(List.of())
+                        .stream()
+                        .map(Member::getId)
+                        .collect(toSet())
         );
+    }
+
+    public Set<String> getMemberIds() {
+        return memberIds;
     }
 
     public String getId() {
