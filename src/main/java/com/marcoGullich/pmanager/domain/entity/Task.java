@@ -35,6 +35,30 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "assigned_member_id")
+    private Member assignedMember;
+
+    public Member getAssignedMember() {
+        return assignedMember;
+    }
+
+    public void setAssignedMember(Member assignedMember) {
+        this.assignedMember = assignedMember;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     public String getId() {
         return id;
     }
