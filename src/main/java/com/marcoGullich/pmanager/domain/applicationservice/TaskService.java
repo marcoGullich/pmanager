@@ -7,13 +7,19 @@ import com.marcoGullich.pmanager.domain.exception.InvalidTaskStatusException;
 import com.marcoGullich.pmanager.domain.exception.TaksNotFoundException;
 import com.marcoGullich.pmanager.domain.model.TaskStatus;
 import com.marcoGullich.pmanager.domain.repository.TaskRepository;
+import com.marcoGullich.pmanager.infrastructure.config.AppConfigProperties;
 import com.marcoGullich.pmanager.infrastructure.dto.SaveTaskDataDto;
+import com.marcoGullich.pmanager.infrastructure.util.PaginationHelper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -26,6 +32,11 @@ public class TaskService {
 
     @Autowired
     private MemberService memberService;
+
+    private  PaginationHelper paginationHelper = new PaginationHelper();
+
+    @Autowired
+    private AppConfigProperties props;
 
     @Transactional
     public Task createTask(SaveTaskDataDto saveTaskDataDto) {
@@ -74,18 +85,22 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> findTasks(
+    public Page<Task> findTasks(
             String projectId,
             String memberId,
             String statusStr,
-            String partialTitle
+            String partialTitle,
+            Integer page,
+            String direction,
+            List<String> properties
     ){
-
         return repository.find(
                 projectId,
                 memberId,
-                convertToTaskStatus(statusStr),
-                partialTitle);
+                Optional.ofNullable(statusStr).map(this::convertToTaskStatus).orElse(null) ,
+                partialTitle,
+                paginationHelper.createPageable(page, props.getPageSize(), direction, properties)
+        );
     }
 
     private Project getProjectIfPossible(SaveTaskDataDto saveTaskDataDto) {
