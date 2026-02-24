@@ -9,13 +9,19 @@ spring:
   application:
     name: PManager
   datasource:
-    url: jdbc:h2:mem:test
-    driveClassName: org.h2.Driver
-    username: sa
-  h2:
-    console:
-      enabled: true
+    #url: jdbc:h2:mem:test
+    #driveClassName: org.h2.Driver
+    #username: sa
+    url: jdbc:mysql://localhost/pmanagerdb?useSSL=false
+    driveClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Senha$00
+  #h2:
+    #console:
+      #enabled: true
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
 app:
   pageSize: 3
