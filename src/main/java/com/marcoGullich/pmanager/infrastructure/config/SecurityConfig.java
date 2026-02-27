@@ -2,6 +2,7 @@ package com.marcoGullich.pmanager.infrastructure.config;
 
 import com.marcoGullich.pmanager.infrastructure.security.AuthenticationFilter;
 import com.marcoGullich.pmanager.infrastructure.security.AuthenticationServices;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,7 @@ public class SecurityConfig {
         this.authenticationServices = authenticationServices;
     }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)

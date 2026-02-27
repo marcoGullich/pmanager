@@ -99,7 +99,7 @@ public class TaskService {
                 memberId,
                 Optional.ofNullable(statusStr).map(this::convertToTaskStatus).orElse(null) ,
                 partialTitle,
-                paginationHelper.createPageable(page, props.getPageSize(), direction, properties)
+                paginationHelper.createPageable(page, props.getGeneral().getPageSize(), direction, properties)
         );
     }
 
